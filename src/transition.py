@@ -22,6 +22,15 @@ class Transition:
     def get_chars(self, status):
         return [c for c in self._table[status]]
 
+    def max_len_status(self):
+        max_dim = 1
+        for s in self._table:
+            max_dim = max(max_dim, len(s))
+            for c in self.get_chars(s):
+                dest_s,_,_ = self[s,c]
+                max_dim = max(max_dim,len(dest_s))
+        return max_dim
+
     def __str__(self):
         max_dims = [1,1,5]
         for s in self._table:

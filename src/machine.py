@@ -23,13 +23,16 @@ class Machine:
         self.tape = self.tape.step(c,d)
 
     def execute(self):
+        steps = 0
         print(self)
         while self.status != "h" and self.status != "":
             self.step()
             print(self)
+            steps +=1
+        print("Steps: {}".format(steps))
 
     def __str__(self):
-        dim_status = 1
+        dim_status = self.transition.max_len_status()
         dim_string = len("string")
         dim_status = max(dim_status,len(self.status))
         dim_string = max(dim_string, len(str(self.tape)))
