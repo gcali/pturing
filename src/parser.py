@@ -17,9 +17,18 @@ import string
 alphabet = string.ascii_letters + string.digits + "#" + "»"
 
 def tokenize(program:str) -> TokenList:
+    try:
+        header = re.search("/(.*?)/", program).group(1)
+    except (IndexError, AttributeError):
+        header = None
     [transition,tape] = program.split("---")
     transition_iter = map(lambda x: x[1:-1],re.findall(r"\(.*?\)", transition))
-    return (transition_iter, tape.strip())
+    return (header,transition_iter, tape.strip())
+
+def parse_header(header_string:str) -> dict:
+    d = {}
+    d["start"] = header_string.strip()
+    return d
 
 def parse_tape(tape_string:str) -> Tape:
     for c in tape_string:

@@ -10,14 +10,22 @@ def process_file(name:str):
     print("Processing {}".format(name))
     with open(name) as f:
         program = f.read()
-        token_transition,token_tape = tokenize(program)
+        token_header,token_transition,token_tape = tokenize(program)
+        if token_header:
+            start_status = parse_header(token_header)["start"]
+        else:
+            start_status = None
+
         transition = parse_transition(token_transition)
         print("Transition:")
         print(transition)
         tape = parse_tape(token_tape)
         print("Tape:")
         print(tape)
-        machine = Machine(transition,tape)
+        if not start_status:
+            machine = Machine(transition,tape)
+        else:
+            machine = Machine(transition,tape,start_status)
         print("Execution:")
         machine.execute()
     print()
