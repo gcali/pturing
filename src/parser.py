@@ -16,14 +16,18 @@ import string
 
 alphabet = string.ascii_letters + string.digits + "#" + "»" + "+-/*"
 
-def tokenize(program:str) -> TokenList:
+def tokenize_main(main_string:str) -> tuple:
     try:
-        header = re.search("/(.*?)/", program).group(1)
+        header = re.search("/(.*?)/", main_string).group(1)
     except (IndexError, AttributeError):
         header = None
-    [transition,tape] = program.split("---")
-    transition_iter = map(lambda x: x[1:-1],re.findall(r"\(.*?\)", transition))
-    return (header,transition_iter, tape.strip())
+    transition_iter = map(lambda x: x[1:-1],re.findall(r"\(.*?\)", main_string))
+    return (header,transition_iter)
+
+def tokenize(program:str) -> tuple:
+    main,tape = program.split("---")
+    header,transition_iter = tokenize_main(main)
+    return (header,transition_iter,tape.strip())
 
 def parse_header(header_string:str) -> dict:
     d = {}
@@ -56,7 +60,7 @@ if __name__ == '__main__':
             program = f.read()
     else:
         program = "(a,b,c,d,e) --- {}test".format(RESP)
-    (tr,ta) = tokenize(program)
+    (h,tr,ta) = tokenize(program)
     transition = parse_transition(tr)
     tape = parse_tape(ta)
     print("Transition")
