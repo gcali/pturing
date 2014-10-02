@@ -2,8 +2,9 @@
 
 class Transition:
     
-    def __init__(self):
+    def __init__(self, start_status=None):
         self._table = {}
+        self.start_status = start_status
 
     def __iter__(self):
         for status in self._table:
@@ -11,6 +12,8 @@ class Transition:
 
     def __setitem__(self, key, value):
         status,c = key
+        if not self.start_status:
+            self.start_status = status
         if not status in self._table:
             self._table[status] = {}
         self._table[status][c] = value

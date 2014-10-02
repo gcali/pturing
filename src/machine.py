@@ -4,12 +4,15 @@ from tape import Tape, BLANK, RESP
 from transition import Transition
 
 class Machine:
-    def __init__(self, transition, tape=None, start_status="s"):
+    def __init__(self, transition, tape=None, start_status=None):
         if tape == None:
             tape = Tape()
         self.tape = tape
         self.transition = transition
-        self.status = start_status
+        if start_status:
+            self.status = start_status
+        else:
+            self.status = transition.start_status
 
     def step(self):
         if self.status == "h" or self.status == "":
