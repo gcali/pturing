@@ -4,11 +4,7 @@ BLANK = '#'
 RESP = '»'
 DIR = { "R" : 1, "L" : -1, "-" : 0, ">" : 1, "<" : -1}
 
-class Color:
-    BOLD = '\033[1m'
-    END = '\033[0m'
-    UNDERLINE = '\033[4m'
-
+from color import Color
 
 
 class Tape:
