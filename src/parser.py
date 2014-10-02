@@ -14,7 +14,7 @@ class TokenList(list):
 
 import string
 
-alphabet = string.ascii_letters + string.digits + "#" + "»"
+alphabet = string.ascii_letters + string.digits + "#" + "»" + "+-/*"
 
 def tokenize(program:str) -> TokenList:
     try:
